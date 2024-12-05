@@ -1,162 +1,140 @@
-import { Card } from "flowbite-react";
-import pp from "../assets/me.jpg";
+import React, { useState, useEffect } from 'react';
 
-const Profile = () => {
+// Component for individual project cards
+const ProjectCard = ({ title, description }) => (
+  <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:scale-105 transition-transform">
+    <h3 className="text-xl font-semibold mb-2">{title}</h3>
+    <p className="mb-4">{description}</p>
+    <a href="3" className="text-primary-light dark:text-primary-dark hover:underline transition-colors duration-300">View Project →</a>
+  </div>
+);
+
+// Footer social media icon component
+const FooterIcon = ({ href, iconPath }) => (
+  <a href={href} className="text-gray-600 dark:text-gray-400 hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300" aria-label="GitHub">
+    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d={iconPath} />
+    </svg>
+  </a>
+);
+
+// Main App component
+const App = () => {
+  const [darkMode, setDarkMode] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Check for dark mode preference on load
+  useEffect(() => {
+    const storedDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (storedDarkMode || (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      setDarkMode(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('darkMode', 'true');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('darkMode', 'false');
+    }
+  }, [darkMode]);
+
+  const toggleDarkMode = () => setDarkMode(prevMode => !prevMode);
+  const toggleMobileMenu = () => setMobileMenuOpen(prevState => !prevState);
+
   return (
-    <Card className="max-w-full m-5">
-      <section id="home" class=" ">
-        <div class="container">
-          <div class="flex flex-wrap">
-            <div class="w-full self-center px-4 lg:w-1/2">
-              <h1 class="text-base font-semibold text-primary md:text-xl">
-                Halo Semua 👋, saya{" "}
-                <span class="mt-1 block text-4xl font-bold text-dark lg:text-5xl">
-                  Muzakki Fadlil
-                </span>
-              </h1>
-              <h2 class="mb-5 text-lg font-medium text-secondary lg:text-2xl">
-                Student & <span class="text-dark">Web Developer</span>
-              </h2>
-              <p class="mb-10 font-medium leading-relaxed text-secondary">
-                Dubito,Ergo Sum,Vel,Quod Idem Est,Cogito,Ergo Sum.
-              </p>
+    <div className={`bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300`}>
+      <header className="bg-white dark:bg-gray-800 shadow-md fixed w-full z-10 transition-colors duration-300">
+        <nav className="container mx-auto px-6 py-3">
+          <div className="flex justify-between items-center">
+            <a href="#" className="text-2xl font-bold text-primary-light dark:text-primary-dark">Muzakki </a>
+            <div className="hidden md:flex space-x-6">
+              <a href="#about" className="hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">About</a>
+              <a href="#projects" className="hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">Projects</a>
+              <a href="#contact" className="hover:text-primary-light dark:hover:text-primary-dark transition-colors duration-300">Contact</a>
+            </div>
+            <div className="flex items-center">
+              <button onClick={toggleDarkMode} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300 mr-4" aria-label="Toggle dark mode">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              </button>
+              <button onClick={toggleMobileMenu} className="md:hidden focus:outline-none" aria-label="Toggle mobile menu">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+              </button>
+            </div>
+            
+          </div>
+        </nav>
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-white dark:bg-gray-800 transition-colors duration-300">
+            <a href="#about" className="block py-2 px-4 text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300">Abouts</a>
+            <a href="#projects" className="block py-2 px-4 text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300">Projects</a>
+            <a href="#contact" className="block py-2 px-4 text-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300">Contact</a>
+          </div>
+        )}
+      </header>
 
-              <a
-                href="#"
-                class="rounded-full bg-orange-300 py-3 px-8 text-base font-semibold text-white transition duration-300 ease-in-out hover:opacity-80 hover:shadow-lg"
-              >
-                Hubungi Saya
-              </a>
+      <main className="container mx-auto px-6 py-20">
+        <section id="about" className="mb-20 pt-16 animate-fade-in-up">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 text-primary-light dark:text-primary-dark">Hi, I'm Muzakki fadlil</h1>
+          <p className="text-mb mb-8">a student at Prakarya Internasional High School, specializing in software development and game design. I’m deeply passionate about technology and coding, and I’m excited to explore how programming can shape the digital experiences of tomorrow. Currently, I’m focused on mastering the fundamentals of software development while diving into game design and exploring different game types.<br></br>
+          Skills:
+          Web Development: HTML, CSS, JavaScript, Laravel
+          Game Development: Unity, C#, Game Mechanics
+          Programming: Python, Java
+          Version Control: Git, GitHub
+          Problem-Solving: Algorithm design, debugging, optimization
+          Soft Skills: Collaboration, Communication, Time Management<br></br>
+          im always looking for new challenges and opportunities to learn and grow. If you re interested in working together or just want to talk tech, feel free to reach out!</p>
+          <a href="#contact" className="bg-primary-light dark:bg-primary-dark text-white px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-colors duration-300">Get in touch</a>
+        </section>
+
+        <section id="projects" className="mb-20 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <h2 className="text-3xl font-bold mb-8 text-primary-light dark:text-primary-dark">Projects</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <ProjectCard title="Responsive Blog Platform" description="A fully responsive blog platform built with Next.js and Tailwind CSS." />
+            <ProjectCard title="Task Management App" description="A React-based task management application with drag-and-drop functionality." />
+            <ProjectCard title="E-commerce Website" description="A full-stack e-commerce platform built with Node.js, Express, and MongoDB." />
+            <ProjectCard title="Weather Dashboard" description="A weather dashboard using OpenWeatherMap API and Chart.js for data visualization." />
+          </div>
+        </section>
+
+        <section id="contact" className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+          <h2 className="text-3xl font-bold mb-8 text-primary-light dark:text-primary-dark">Get in Touch</h2>
+          <form className="max-w-lg mx-auto">
+            <div className="mb-4">
+              <label htmlFor="name" className="block mb-2">Name</label>
+              <input type="text" id="name" name="name" className="w-full px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark transition-all duration-300" required />
             </div>
-            <div class="w-full self-end px-4 lg:w-1/2">
-              <div class="relative mt-10 lg:right-0 lg:mt-9">
-                <img
-                  src="src/assets/me.jpg"
-                  alt="Muzakki Fadlil"
-                  class="w-25 h-25 rounded-full mx-auto"
-                />
-              </div>
+            <div className="mb-4">
+              <label htmlFor="email" className="block mb-2">Email</label>
+              <input type="email" id="email" name="email" className="w-full px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark transition-all duration-300" required />
             </div>
+            <div className="mb-4">
+              <label htmlFor="message" className="block mb-2">Message</label>
+              <textarea id="message" name="message" rows="4" className="w-full px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark transition-all duration-300" required></textarea>
+            </div>
+            <button type="submit" className="bg-primary-light dark:bg-primary-dark text-white px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition-colors duration-300">Send Message</button>
+          </form>
+        </section>
+      </main>
+
+      <footer className="bg-white dark:bg-gray-800 mt-12 transition-colors duration-300">
+        <div className="container mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center">
+          <p>&copy; 2024 . All rights reserved.</p>
+          <div className="flex space-x-4 mt-4 md:mt-0">
+            <FooterIcon href="https://github.com/Badrnej?tab=repositories" iconPath="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237" />
+            <FooterIcon href="https://www.linkedin.com/in/badr-nejaa" iconPath="M19.618 19.618c2.484-2.483 2.484-6.513 0-9.596-2.485-2.483-6.513-2.483-9.596 0" />
           </div>
         </div>
-      </section>
-
-      <section id="about" class="pt-36 pb-32 dark:bg-dark">
-        <div class="container">
-          <div class="flex flex-wrap">
-            <div class="mb-10 w-full px-4 lg:w-1/2">
-              <h4 class="mb-3 text-lg font-bold uppercase text-primary">
-                Tentang Saya
-              </h4>
-              <h2 class="mb-5 max-w-md text-3xl font-bold text-dark dark:text-white lg:text-4xl">
-                Hello,Saya Muzakki fadlil !
-              </h2>
-              <p class="max-w-xl text-base font-medium text-secondary lg:text-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Id
-                temporibus maiores sequi vitae saepe iusto deleniti!
-              </p>
-            </div>
-            <div class="w-full px-4 lg:w-1/2">
-              <h3 class="mb-4 text-2xl font-semibold text-dark dark:text-white lg:pt-10 lg:text-3xl">
-                Mari berteman
-              </h3>
-              <p class="mb-6 text-base font-medium text-secondary lg:text-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
-                quos, hic animi quasi ipsum exercitationem ipsam incidunt
-                voluptatem.
-              </p>
-              <div class="flex items-center">
-                <a
-                  href="https://youtube.com"
-                  target="_blank"
-                  class="mr-3 flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-slate-300 hover:border-primary hover:bg-primary hover:text-white"
-                >
-                  <svg
-                    role="img"
-                    width="20"
-                    class="fill-current"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <title>YouTube</title>
-                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                  </svg>
-                </a>
-
-                <a
-                  href="https://instagram.com/"
-                  target="_blank"
-                  class="mr-3 flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-slate-300 hover:border-primary hover:bg-primary hover:text-white"
-                >
-                  <svg
-                    role="img"
-                    width="20"
-                    class="fill-current"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <title>Instagram</title>
-                    <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
-                  </svg>
-                </a>
-
-                <a
-                  href="https://twitter.com/"
-                  target="_blank"
-                  class="mr-3 flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-slate-300 hover:border-primary hover:bg-primary hover:text-white"
-                >
-                  <svg
-                    role="img"
-                    width="20"
-                    class="fill-current"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <title>Twitter</title>
-                    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-                  </svg>
-                </a>
-
-                <a
-                  href="https://tiktok.com/"
-                  target="_blank"
-                  class="mr-3 flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-slate-300 hover:border-primary hover:bg-primary hover:text-white"
-                >
-                  <svg
-                    role="img"
-                    width="20"
-                    class="fill-current"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <title>TikTok</title>
-                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
-                  </svg>
-                </a>
-
-                <a
-                  href="https://linkedin.com/in/"
-                  target="_blank"
-                  class="mr-3 flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-slate-300 hover:border-primary hover:bg-primary hover:text-white"
-                >
-                  <svg
-                    role="img"
-                    width="20"
-                    class="fill-current"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <title>LinkedIn</title>
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </Card>
+      </footer>
+    </div>
   );
-};
+}
 
-export default Profile;
+export default App;
