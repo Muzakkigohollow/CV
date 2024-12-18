@@ -97,10 +97,10 @@ const App = () => {
         <section id="projects" className="mb-20 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
           <h2 className="text-3xl font-bold mb-8 text-primary-light dark:text-primary-dark">Projects</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <ProjectCard title="Responsive Blog Platform" description="A fully responsive blog platform built with Next.js and Tailwind CSS." />
-            <ProjectCard title="Task Management App" description="A React-based task management application with drag-and-drop functionality." />
-            <ProjectCard title="E-commerce Website" description="A full-stack e-commerce platform built with Node.js, Express, and MongoDB." />
-            <ProjectCard title="Weather Dashboard" description="A weather dashboard using OpenWeatherMap API and Chart.js for data visualization." />
+            <ProjectCard title="Responsive Blog Platform" description="-" />
+            <ProjectCard title="Task Management App" description="-" />
+            <ProjectCard title="E-commerce Website" description="" />
+            <ProjectCard title="Weather Dashboard" description="" />
           </div>
         </section>
 
